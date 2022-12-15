@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<!--Velger språk, Norsk bokmål-->
+<html lang="nb">
+<head>
+  <!--Tittel på nettside, typer bokstaver og symboler, mobil justering-->
+  <title>Julenettside</title>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+<!--Javascript, logikk-->
+<script>
+/*Funksjon for å la en sirkel følge musen din*/
+document.addEventListener('DOMContentLoaded', () => {
+    /*Lager og definerer variabler*/
+    let mousePosX = 0,
+        mousePosY = 0,
+        /*Legger HTML div-en i en variabel*/
+        mouseCircle = document.getElementById('mouse-circle');
+
+    /*Gir mus kordinatene til variablene*/
+    document.onmousemove = (e) => {
+        mousePosX = e.pageX;
+        mousePosY = e.pageY;
+    }
+
+    /*Definerer flere varibler*/
+    let delay = 6,
+        revisedMousePosX = 0;
+        revisedMousePosY = 0;
+
+    /*Funksjon for å forsinke sirkelen, for å skape en bedre animasjon*/
+    function delayMouseFollow() {
+
+        /*Gir bedre animasjoner, kaller in en funksjon før den tegner neste frame*/
+        requestAnimationFrame(delayMouseFollow);
+
+        /*Gjør sirkelen raskere når den er langt unna musen, og sakker ned når den kommer nærmere*/
+        revisedMousePosX += (mousePosX - revisedMousePosX) / delay;
+        revisedMousePosY += (mousePosY - revisedMousePosY) / delay; 
+
+        /*Bruker tallene fra de andre variablene, og brukes de til å sette kordinatene på sirkel elementet*/
+        mouseCircle.style.top = revisedMousePosY + 'px';
+        mouseCircle.style.left = revisedMousePosX + 'px';
+    }
+    delayMouseFollow();
+});
+/*Jumpscare funksjon som aktiveres etter at knappen blir trykket*/
+function jumpScare() {
+            /*Gjemmer flere elementer, stopper musikk, legger inn nye elementer, spiller av video, endrer bakgrunn og justere volum*/
+            document.getElementById('musikk').pause();
+            document.getElementById('mouse-circle').style.display = "none";
+            document.getElementById('button').style.display = "none";
+            document.getElementById('tekst').style.display = "none";
+            document.getElementById('tittel').style.display = "none";
+            document.getElementById('gif').style.display = "none";
+            document.getElementById("myVideo").volume = 0.1;
+            document.getElementById('myVideo').style.display = "inline";
+            document.getElementById('myVideo').play();
+            document.body.style.backgroundImage = "url(White.gif)";
+            /*Delay til neste funksjon*/
+            setTimeout(picture, 11000);
+}
+/*Funksjon som endrer til jumpscare bildet, øker volumet og endrer bakgrunn*/
+function picture() {
+  document.body.style.backgroundImage = "url(BlackBG.jpg)";
+  document.getElementById('scare').style.display = "inline";
+  document.getElementById("myVideo").volume = 1;
+  /*Delay for sluttmelding funksjonen*/
+  setTimeout(sisteMelding, 5000)
+}
+/*Funksjon som fjerner jumpscare bildet og sender en siste melding.*/
+function sisteMelding() {
+  document.getElementById('scare').style.display = "none";
+  document.getElementById('sisteMelding').style.display = "inline";
+}
+/*Musikk funksjon som spiller en julesang når du trykker en keyboard tast*/
+function spillMusikk(event) {
+  document.getElementById('musikk').volume = 0.1;
+  document.getElementById('musikk').play();
+}
+</script>
+<!--CSS, styling-->
+<style>  
+/*Styler body-en og hele dokumentet, lager et bakgrunnsbilde, flytter all tekst til midten og gjemmer scrollbarsene*/
+body {
+  background-image: url(JuletreBG.jpg);
+  background-size:cover;
+  background-position:center;
+  background-repeat: no-repeat, repeat;
+  text-align: center;
+  background-attachment:fixed;
+  overflow-y: hidden; 
+  overflow-x: hidden; 
+}
+/*Styler heading 1, endrer farge på teksten, og bakgrunnsfargen og justerer størrelsen*/
+h1 {
+  color:white;
+  background-color:green;
+  font-size:72px;
+}
+/*Styler paragraf tekst, endrer farge*/
+p {
+  color:white;
+}
+/*Styler mus sirkelen, endrer størrelse, proposjoner og fargen.*/
+ #mouse-circle {
+    position: absolute;
+    width: 64px;
+    height: 64px;
+    margin: -32px 0 0 -32px;
+    border: 5px solid red;
+    border-radius: 50%;
+    /*Sirkelen reagerer ikke til museklikk eller når du har musen over et element*/
+    pointer-events: none;
+}   
+/*Styler jumpscare videoen, velger størrelse og gjør den usynelig inntil videre instruks*/    
+#myVideo {
+  display: none;
+  width: 100%;
+  height: 100%;
+}
+/*Styler jumpscare knappen, velger farge, størrelse, tekst valg, display, kanten og overgangs lengde til andre animasjoner.*/
+#button {
+  background-color: white;
+  transition-duration: 0s;
+  color: green;
+  border-radius: 6px;
+  border-color: solid green;
+  padding: 16px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  transition-duration: 0.4s;
+  /*Endrer cursor typen for å indikere at man kan trykke på elementet*/
+  cursor: pointer;
+}
+/*Animasjon for knappen når du har musepekeren over elementet, endrer farge*/
+#button:hover {
+  background-color: green;
+  color: white;
+  transition-duration: 0.4s;
+}
+/*Animasjon for knappen når den blir trykket, endrer farge*/
+#button:active {
+  background-color: rgb(0, 81, 0);
+  color: rgb(194, 193, 193);
+  transition-duration: 0s;
+}
+/*Styling for jumpscare bildet, velger størrelse, hvor det plaseres og at det skal være usynelig til jumpscare funksjonen blir kalt*/
+#scare {
+  display: none;
+  width: 1250px;
+  height: 590px;
+  object-fit: cover;
+  /*Bruker keyframes til å lage en animasjon som var 0,4 sekunder og som repeteres 11 ganger før den er ferdig*/
+  animation: rist 0.4s;
+  animation-iteration-count: 11;
+}
+/*Keyframes til animasjonen for jumpscare bildet, roterer og beveger fram og tilbake*/
+@keyframes rist {
+  0% { transform: translate(4px, 4px) rotate(0deg); }
+  10% { transform: translate(-4px, -6px) rotate(-2deg); }
+  20% { transform: translate(-8px, 2px) rotate(2deg); }
+  30% { transform: translate(8px, 6px) rotate(0deg); }
+  40% { transform: translate(4px, -4px) rotate(2deg); }
+  50% { transform: translate(-4px, 6px) rotate(-2deg); }
+  60% { transform: translate(-8px, 4px) rotate(0deg); }
+  70% { transform: translate(8px, 4px) rotate(-2deg); }
+  80% { transform: translate(-4px, -4px) rotate(2deg); }
+  90% { transform: translate(4px, 6px) rotate(0deg); }
+  100% { transform: translate(4px, -6px) rotate(-2deg); }
+}
+/*Styling for den siste meldingen, sier at den skal være usynelig til jumpscaret er ferdig*/
+#sisteMelding {
+  display: none;
+}
+    </style>
+</head>
+<!--Body, inneholder elementene som blir lagt til i selve nettsiden-->
+<!--Gjør at hver gang du trykker en keyboard tast så aktiverer det musikk funksjonen-->
+<body onkeypress="spillMusikk(event)"> 
+<!--Element og id for mus sirkelen-->
+<div id="mouse-circle"></div>
+<!--Overskrift for Julekortet-->
+<h1 id="tittel">God Jul Lasse!</h1>
+<!--Gif av en julenisse som løper-->
+<img id="gif" src="Julenisseløper.gif" alt="gif av julenisse" width="20%">
+<!--Paragraf tekst om hvordan man skrur på julemusikk, og som takker god jul og godt nyttår-->
+<p id="tekst">Trykk hvilken som helst knapp på tastaturet for å høre på julemusikk.<br>Ha en fin jul og et godt nyttår.<br>Mvh. Vishno</p>
+<!--Lyd fil med id til musikk funksjonen-->
+<audio id = musikk src="Musikk.mp3"></audio>
+<!--Siste melding som vises til slutt etter jumpscaret-->
+<h1 id="sisteMelding">Lykke til videre Lasse!</h1>
+<!--Knapp som aktiverer jumpscare-->
+<button id="button" onclick="jumpScare()">Trykk Meg</button>
+<!--Jumpscare bildet-->
+<img id="scare" src="Jumpscarenisse.jpg" alt="jumpScare";>
+<!--Video overgangen til jumpscare-->
+<video autoplay id="myVideo">
+  <source src="Glitch.mp4" type="video/mp4">
+</video>
+</body>
+</html>
